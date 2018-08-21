@@ -1,22 +1,19 @@
-console.log("Hello main.js");
-
-const makePlace = require("placesHTML.js");
+const makeChat = require("placesHTML.js");
 const dbCalls = require("dbCalls.js");
 
-const chat = Object.create(null, {
+chat = Object.create(null, {
     //vvvvvvvvvvvvvvvvv CreateWindow MAKES THE HTML FOR CHAT & POPULATES WITH CURRENT DATA vvvvvvvvvvvvvvvvvvvvvvv
     createWindow: {
         value: () => {
             console.log("Create Chat Window");
-            let txt1 = $("<h3></h3>").text("Favorite Places");
-            let listOfPlaces = $("<div></div>").attr("id", "listOfPlaces");
-            let placeName = $("<form></form>").attr("id", "placeName");
-            let placeLocation = $("<form></form>").attr("id", "placeLocation");
+            let txt1 = $("<h3></h3>").text("Chat");
+            let chatHistory = $("<div></div>").attr("id", "chatHistory");
+            let messageArea = $("<textarea></textarea>").attr("id", "messageArea");
             let postButton = $("<button>Post</button>").attr("id", "postButton");
-            $("#mainDiv").append(txt1, placeName, placeLocation, postButton, listOfPlaces);
-            return dbCalls.getPlaces()
+            $(".chatDiv").append(txt1, chatHistory, messageArea, postButton);
+            return dbCalls.getchatMessages()
             .then((response) => {
-                makePlace(response)
+                makeChat(response)
             })
         }
     },
@@ -78,4 +75,4 @@ const chat = Object.create(null, {
         }
 })
 
-chat.createWindow()
+module.exports = chat
