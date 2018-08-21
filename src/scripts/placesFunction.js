@@ -6,16 +6,28 @@ const places = Object.create(null, {
     createWindow: {
         value: () => {
             console.log("Create Chat Window");
-            let title = $("<h3></h3>").text("Favorite Places");
-            let placeNameLable = $("<label>Name:</label>").attr("for", "placeNameLable");
-            let placeName = $("<input></input>").attr("id", "placeName").attr("placeholder", "Name of Place");
-            let placeTypeLable = $("<label>Type:</label>").attr("for", "placeTypeLable");
-            let placeType = $("<input></input>").attr("id", "placeType").attr("placeholder", "Type of Place");
-            let placeLocationLable = $("<label>Location:</label>").attr("for", "placeLocationLable");
-            let placeLocation = $("<input></input>").attr("id", "placeLocation").attr("placeholder", "Location of Place");
-            let postButton = $("<button>Post</button>").attr("id", "postButton").attr("class", "btn btn-sm btn-outline-secondary");
+            let container = $("<div></div>").attr("id", "mainContainer").attr("class", "container");
+            let container2 = $("<div></div>").attr("id", "headerContainer").attr("class", "container mx-auto");
+            let header = $("<div></div>").attr("id", "mainContainer").attr("class", "row");
+            let title = $("<h3></h3>").text("Favorite Places").attr("class", "col-md-12 text-center");
+            let nameContainer = $("<div></div>").attr("id", "nameContainer").attr("class", "col-md-4 row");
+            let placeNameLable = $("<label>Name:</label>").attr("for", "placeNameLable ").attr("class", "col-md-12 text-center");
+            let placeName = $("<input></input>").attr("id", "placeName").attr("placeholder", "Name of Place").attr("class", "col-md-12");
+            let typeContainer = $("<div></div>").attr("id", "typeContainer").attr("class", "col-md-4");
+            let placeTypeLable = $("<label>Type:</label>").attr("for", "placeTypeLable").attr("class", "col-md-12 text-center");
+            let placeType = $("<input></input>").attr("id", "placeType").attr("placeholder", "Type of Place").attr("class", "col-md-12");
+            let locationContainer = $("<div></div>").attr("id", "locationContainer").attr("class", "col-md-4");
+            let placeLocationLable = $("<label>Location:</label>").attr("for", "placeLocationLable").attr("class", "col-md-12 text-center");
+            let placeLocation = $("<input></input>").attr("id", "placeLocation").attr("placeholder", "Location of Place").attr("class", "col-md-12");
+            let postButton = $("<button>Post</button>").attr("id", "postButton").attr("class", "col-md-12 btn btn-sm btn-outline-secondary mx-auto");
             let listOfPlaces = $("<div></div>").attr("id", "listOfPlaces").attr("class", "row");
-            $("#mainDiv").append(title, placeNameLable, placeName, placeTypeLable, placeType, placeLocationLable, placeLocation, postButton, listOfPlaces);
+            $(nameContainer).append(placeNameLable, placeName);
+            $(typeContainer).append(placeTypeLable, placeType);
+            $(locationContainer).append(placeLocationLable, placeLocation);
+            $(header).append(title, nameContainer, typeContainer, locationContainer, postButton);
+            $(container2).append(header);
+            $(container).append(container2, listOfPlaces);
+            $("#mainDiv").append(container);
             return dbCalls.getPlaces()
             .then((response) => {
                 makePlace(response)
