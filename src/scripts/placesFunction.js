@@ -55,26 +55,34 @@ const places = Object.create(null, {
     //vvvvvvvvvvvvvvvvv THIS CALLS ON DATABASE MANAGER TO EDIT A PREVIOUSLY POSTED MESSAGE vvvvvvvvvvvvvvvvvvvvvvv
     editMessage: {
         value: (id) => {
-            let newDiv = $("<div></div>").attr("id", `editBlock--${id}`);
-            let editTitle = $("<h3></h3>").text("Edit Your Message");
-            let editMessageArea = $("<textarea></textarea>").attr("id", "editMessageArea");
-            let editButton = $("<button>Confirm Edit</button>").attr("id", `confirmEdit--${id}`);
-            newDiv.append(editTitle, editMessageArea, editButton);
-            $(`#messageBox--${id-1}`).append(newDiv);
+            let editDiv = $("<div></div>").attr("id", `editBlock--${id}`);
+            let editPlaceTitle = $("<h3></h3>").text("Edit Your Message");
+            let editPlaceNameLable = $("<label>Name:</label>").attr("for", "placeNameLable");
+            let editPlaceName = $("<input></input>").attr("id", `editPlaceName--${id}`).attr("placeholder", "Edit Name of Place");
+            let editPlaceTypeLable = $("<label>Type:</label>").attr("for", "placeTypeLable");
+            let editPlaceType = $("<input></input>").attr("id", `editPlaceType--${id}`).attr("placeholder", "Edit Type of Place");
+            let editPlaceLocationLable = $("<label>Location:</label>").attr("for", "placeLocationLable");
+            let editPlaceLocation = $("<input></input>").attr("id", `editPlaceLocation--${id}`).attr("placeholder", "Edit Location of Place");
+            let confirmEditButton = $("<button>Confirm Edit</button>").attr("id", `confirmEditButton--${id}`).attr("class", `confirmEdit btn btn-sm btn-outline-secondary`);
+            let cancelEditButton = $("<button>Cancel Edit</button>").attr("id", `cancelEditButton--${id}`).attr("class", `cancelEdit btn btn-sm btn-outline-secondary`);
+            editDiv.append(editPlaceTitle, editPlaceNameLable, editPlaceName, editPlaceTypeLable, editPlaceType, editPlaceLocationLable, editPlaceLocation, confirmEditButton, cancelEditButton);
+            $(`#placeBox--${id}`).append(editDiv);
         }
     },
     postEditedMessage: {
         value: (id) => {
             const entryEdit = {
-                message: document.querySelector("#editMessageArea").value,
+                name: document.querySelector(`#editPlaceName--${id}`).value,
+                type: document.querySelector(`#editPlaceType--${id}`).value,
+                location: document.querySelector(`#editPlaceLocation--${id}`).value,
             }
             dbCalls.editPlace(id, entryEdit)
                 .then(() => {
                     return dbCalls.getPlaces()
                 })
                 .then((result) => {
-                    document.querySelector("#chatHistory").innerHTML = "";
-                    makeChat(result)
+                    document.querySelector("#listOfPlaces").innerHTML = "";
+                    makePlace(result)
                 })
             }
         }
