@@ -6,3 +6,4 @@ const eventListeners = require("eventListeners.js");
 
 places.createWindow();
 eventListeners.postButton();
+eventListeners.deleteButton();
